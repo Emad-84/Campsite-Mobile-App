@@ -3,7 +3,7 @@ import { ScrollView, Text, FlatList } from "react-native";
 import { Card, ListItem } from "react-native-elements";
 import { PARTNERS } from "../shared/partners";
 
-function Mission(props) {
+function Mission() {
   return (
     <Card>
       <Text style={{ margin: 10 }}>
