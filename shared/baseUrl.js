@@ -1,0 +1,1 @@
+export const bseUrl = 'http://192.168.100.10:3001/';
