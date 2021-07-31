@@ -1,3 +1,4 @@
+import { registerRootComponent } from "expo";
 import React, { Component } from "react";
 import {
   Text,
@@ -8,7 +9,6 @@ import {
   Button,
   StyleSheet,
 } from "react-native";
-
 import { Card, Icon, Rating, Input } from "react-native-elements";
 import { connect } from "react-redux";
 import { baseUrl } from "../shared/baseUrl";
@@ -24,12 +24,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   postFavorite: (campsiteId) => postFavorite(campsiteId),
-  postComment: (campsiteId, rating, author, text) =>
-    postComment(campsiteId, rating, author, text),
+  postComment: (campsiteId,rating,author,text) => postComment(campsiteId,rating,author,text)
 };
 
 function RenderCampsite(props) {
   const { campsite } = props;
+
   if (campsite) {
     return (
       <Card
@@ -46,7 +46,7 @@ function RenderCampsite(props) {
             reverse
             onPress={() =>
               props.favorite
-                ? console.log("ALready set  as favorite")
+                ? console.log("Already set as a favorite")
                 : props.markFavorite()
             }
           />
@@ -70,12 +70,10 @@ function RenderComments({ comments }) {
     return (
       <View style={{ margin: 10 }}>
         <Text style={{ fontSize: 14 }}>{item.text}</Text>
-        {/* <Text style={{ fontSize: 12 }}>{item.rating} Stars</Text> */}
-        <Rating
-          style={{ alignItems: "flex-start", paddingVertical: "5%" }}
-          startingValue={item.rating}
-          imageSize={10}
-          readonly
+        <Rating style={{alignItems:'flex-start', paddingVertical:'5%'}}
+        startingValue={item.rating}
+        imageSize={10}
+        readonly
         />
         <Text style={{ fontSize: 12 }}>{`--${item.author}, ${item.date}`}</Text>
       </View>
@@ -109,13 +107,7 @@ class CampsiteInfo extends Component {
   }
 
   handleComment(campsiteId) {
-    console.log(JSON.stringify(this.state));
-    this.props.postComment(
-      campsiteId,
-      this.state.rating,
-      this.state.author,
-      this.state.text
-    );
+    this.props.postComment(campsiteId, this.state.rating, this.state.author, this.state.text);
     this.toggleModal();
   }
 
@@ -153,7 +145,6 @@ class CampsiteInfo extends Component {
           onShowModal={() => this.toggleModal()}
         />
         <RenderComments comments={comments} />
-
         <Modal
           animationType={"slide"}
           transparent={false}
@@ -165,10 +156,9 @@ class CampsiteInfo extends Component {
               showRating
               startingValue={this.state.rating}
               imageSize={40}
-              onFinishRating={(rating) => this.setState({ rating: rating })}
+              onFinishRating={rating => this.setState({ rating: rating })}
               style={{ paddingVertical: 10 }}
             />
-
             <Input
               placeholder="Author"
               leftIcon={{ type: "font-awesome", name: "user-o" }}
@@ -180,10 +170,9 @@ class CampsiteInfo extends Component {
               placeholder="Comment"
               leftIcon={{ type: "font-awesome", name: "comment-o" }}
               leftIconContainerStyle={{ paddingRight: 10 }}
-              onChangeText={(comment) => this.setState({ comment: comment })}
-              value={this.state.comment}
+              onChangeText={(text) => this.setState({ text: text })}
+              value={this.state.text}
             />
-
             <View style={{ margin: 10 }}>
               <Button
                 onPress={() => {
@@ -194,10 +183,10 @@ class CampsiteInfo extends Component {
                 title="Submit"
               />
             </View>
-
             <View style={{ margin: 10 }}>
               <Button
                 onPress={() => {
+                  // console.log(this.state.author);
                   this.toggleModal();
                   this.resetForm();
                 }}
@@ -225,5 +214,4 @@ const styles = StyleSheet.create({
     margin: 20,
   },
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(CampsiteInfo);
