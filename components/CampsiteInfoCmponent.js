@@ -1,4 +1,3 @@
-import { registerRootComponent } from "expo";
 import React, { Component } from "react";
 import {
   Text,
@@ -24,7 +23,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   postFavorite: (campsiteId) => postFavorite(campsiteId),
-  postComment: (campsiteId,rating,author,text) => postComment(campsiteId,rating,author,text)
+  postComment: (campsiteId, rating, author, text) =>
+    postComment(campsiteId, rating, author, text),
 };
 
 function RenderCampsite(props) {
@@ -70,10 +70,11 @@ function RenderComments({ comments }) {
     return (
       <View style={{ margin: 10 }}>
         <Text style={{ fontSize: 14 }}>{item.text}</Text>
-        <Rating style={{alignItems:'flex-start', paddingVertical:'5%'}}
-        startingValue={item.rating}
-        imageSize={10}
-        readonly
+        <Rating
+          style={{ alignItems: "flex-start", paddingVertical: "5%" }}
+          startingValue={item.rating}
+          imageSize={10}
+          readonly
         />
         <Text style={{ fontSize: 12 }}>{`--${item.author}, ${item.date}`}</Text>
       </View>
@@ -107,7 +108,12 @@ class CampsiteInfo extends Component {
   }
 
   handleComment(campsiteId) {
-    this.props.postComment(campsiteId, this.state.rating, this.state.author, this.state.text);
+    this.props.postComment(
+      campsiteId,
+      this.state.rating,
+      this.state.author,
+      this.state.text
+    );
     this.toggleModal();
   }
 
@@ -156,7 +162,7 @@ class CampsiteInfo extends Component {
               showRating
               startingValue={this.state.rating}
               imageSize={40}
-              onFinishRating={rating => this.setState({ rating: rating })}
+              onFinishRating={(rating) => this.setState({ rating: rating })}
               style={{ paddingVertical: 10 }}
             />
             <Input
